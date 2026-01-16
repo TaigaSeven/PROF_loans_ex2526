@@ -18,44 +18,48 @@ public class LoanApprovalService {
             Applicant applicant,
             int amountRequested,
             int termMonths
-    ) {
-        validate(applicant, amountRequested, termMonths);
+    ) { // nodo 1
+        // nodo 2 strart
+        validate(applicant, amountRequested, termMonths); 
 
         int score = applicant.creditScore();
         boolean hasDefaults = applicant.hasRecentDefaults();
         int income = applicant.monthlyIncome();
 
         Decision decision;
+        // nodo 2 end
 
-        if (score < 500) {
-            decision = Decision.REJECTED;
-        } else if (score < 650) {
-            if (income >= 2500 && !hasDefaults) {
-                decision = Decision.MANUAL_REVIEW;
-            } else {
-                decision = Decision.REJECTED;
+        if (score < 500) { 
+            decision = Decision.REJECTED;// nodo 3
+        } else if (score < 650) { 
+            // nodo 4
+            if (income >= 2500 && !hasDefaults) { 
+                decision = Decision.MANUAL_REVIEW; // nodo 5 
+            } else { 
+                decision = Decision.REJECTED; // nodo6
             }
-        } else {
-            if (amountRequested <= income * 8) {
-                decision = Decision.APPROVED;
-            } else {
-                decision = Decision.MANUAL_REVIEW;
+        } else { 
+            // nodo 7
+            if (amountRequested <= income * 8) { 
+                decision = Decision.APPROVED; // nodo 8
+            } else { 
+                decision = Decision.MANUAL_REVIEW; // nodo 9
             }
         }
 
         if (decision == Decision.MANUAL_REVIEW
                 && applicant.isVip()
                 && score >= 600
-                && !hasDefaults) {
-            decision = Decision.APPROVED;
+                && !hasDefaults) { 
+            decision = Decision.APPROVED; // nodo 10
         }
 
-        return decision;
+        return decision; // nodo 11
     }
 
     private void validate(Applicant applicant, int amountRequested, int termMonths) {
         Objects.requireNonNull(applicant, "applicant cannot be null");
-        if (amountRequested <= 0) {
+        if (amountRequested <= 0) { 
             throw new IllegalArgumentException("amountRequested must be > 0");
         }
         if (termMonths < 6 || termMonths > 84) {
